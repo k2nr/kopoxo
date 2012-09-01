@@ -1,0 +1,21 @@
+!!! 5
+title = 'パプリックアクティビティ'
+pageName = 'public-activity'
+
+html(lang="ja")
+  head
+    title ｺﾎﾟｫ.com - Home
+    link(href='/css/bootstrap.css', rel='stylesheet')
+    link(href='/css/style.css', rel='stylesheet')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    script(src='/js/common.js')
+    script
+      $(document).ready(function() {
+        getUserData(#{user.id}, function(res) {
+          $('img#user-profile-img').attr({src: res.profile_image_url});
+        });
+      });
+  body
+    include includes/navbar
+    include includes/main-container
+      div.span6 まだつくってる。

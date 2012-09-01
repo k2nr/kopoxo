@@ -1,0 +1,52 @@
+!!! 5
+title = '詳細'
+
+html(lang="ja")
+  include includes/header
+    style
+      .tweet-block {
+        position: relative;
+      }
+      .tweet-text {
+        padding-top: 10px;
+        font-size: 24px;
+        clear: left;
+      }
+      .screen-name {
+        font-size: 20px;
+        bottom: 5px;
+        float: clear;
+      }
+      .profile-image {
+        padding-right: 6px;
+        float: left;
+      }
+      .created-at {
+        margin-top: 6px;
+        clear: left;
+        color: darkgray;
+      }
+      .koporare {
+        top: 0px;
+        right: 0px;
+        padding-top: 4px;
+        padding-right: 4px;
+        border-top-right-radius: 4px;
+        width: 48px;
+        height: 20px;
+        position: absolute;
+        font-size: 22px;
+        font-style: bold;
+        text-align: right;
+        color: green;
+      }
+  body
+    include includes/navbar
+    div.container
+      div.span4.offset2.top-margin.well.tweet-block
+        div.profile-image
+          img(src='#{tweet.profile_image_url}')
+        div.screen-name #{tweet.screen_name}
+        div.tweet-text #{tweet.text}
+        div.created-at #{tweet.created_at.toString()}
+        i.koporare #{replies.length}

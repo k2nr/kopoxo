@@ -1,0 +1,19 @@
+!!! 5
+title = '設定'
+pageName = 'settings'
+html(lang="ja")
+  include includes/header
+    script
+      $(document).ready(function() {
+        getUserData(#{user.id}, function(res) {
+          $('img#user-profile-img').attr({src: res.profile_image_url});
+        });
+      });
+  body
+    include includes/navbar
+    include includes/main-container
+      h1 退会する
+      div
+        form(method='POST', action='/unregister')
+          span.help-block 本サービスはあなたの人生において何らプラスの効果をもたらすものではなく、暇つぶしと呼べるほどの楽しみもなく、あなたが積極的に本サービスのご利用を継続する理由はただひとつも御座いません。ご利用者の皆様には本サービスからの退会を強くお勧めいたします。
+          button.btn(type='submit') 退会する

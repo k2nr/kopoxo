@@ -1,0 +1,32 @@
+navs = ['home', 'public-activity', 'settings', 'signout']
+navString = {'home': 'マイアクティビティ', 'public-activity': 'パプリックアクティビティ', 'settings': '設定', 'signout': 'サインアウト'}
+  
+div.container
+  div.row.top-margin
+    div.span3
+      ul.nav.nav-list.well
+        li.nav-header
+          div
+            img#user-profile-img.profile-img
+            i #{user.screen_name}
+        each nav in navs
+          if nav == pageName
+            li.active
+              a
+                i= navString[nav]
+          else
+            li
+              a(href="/#{nav}")
+                i= navString[nav]
+      table.table.table-striped
+        tr
+          td 総ポイント
+          td #{user.points}
+        tr
+          td 総コポり回数
+          td #{user.post_count}
+        tr
+          td 総コポられ回数
+          td #{user.get_count}
+    div.span6
+      yield

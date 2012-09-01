@@ -1,0 +1,12 @@
+.container {
+    width: 1024px;
+}
+
+.top-margin {
+    margin-top: 60px;
+}
+
+.profile-img {
+    width: 20px;
+    height: 20px;
+}

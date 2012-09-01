@@ -1,0 +1,18 @@
+!!! 5
+title = 'Home'
+pageName = 'home'
+html(lang="ja")
+  include includes/header
+    script(src='/js/home.js')
+    script
+      $(document).ready(function() {
+        getUserData(#{user.id}, function(res) {
+          $('img#user-profile-img').attr({src: res.profile_image_url});
+        });
+      });
+
+  body
+    include includes/navbar
+    include includes/main-container
+      h1 あなたのｺﾎﾟｫ
+      table#my-activities.table.table-striped

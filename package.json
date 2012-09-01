@@ -1,0 +1,14 @@
+{
+  "name": "kopoxo",
+  "description": "kopoxo changes the world.",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "ntwitter": "0.4.x",
+    "mongoose": "3.0.x",
+    "oauth": "0.9.x",
+    "jade": "0.x.x",
+    "socket.io": "0.x.x"
+  }
+}
