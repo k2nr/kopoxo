@@ -1,0 +1,38 @@
+!!!5
+title = 'Home'
+pageName = 'home'
+html(lang="ja")
+  include includes/header
+    script(src='/js/user.js')
+    script
+      $(document).ready(function() {
+        getUserData(#{user.id}, function(res) {
+          $('img#user-profile-img').attr({src: res.profile_image_url});
+        });
+      });
+
+  body
+    span#hidden-id(style='display: none;') #{user.id}
+    span#hidden-screen-name(style='display: none;') #{user.screen_name}
+    include includes/navbar
+    div.container
+      div.row.top-margin
+        div.span3
+          ul.nav.nav-list.well
+            li.nav-header
+              div
+                img#user-profile-img.profile-img
+                i #{user.screen_name}
+          table.table.table-striped
+            tr
+              td 総ポイント
+              td #{user.points}
+            tr
+              td 総コポり回数
+              td #{user.post_count}
+            tr
+              td 総コポられ回数
+              td #{user.get_count}
+        div.span6
+          h1 #{user.screen_name}のｺﾎﾟｫ
+          table#my-activities.table.table-striped
