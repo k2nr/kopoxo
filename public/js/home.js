@@ -25,6 +25,7 @@ function statusLink(screenName, statusID) {
 //    return 'https://twitter.com/' + screenName + '/status/' + statusID;
     return '/status/' + statusID;
 }
+
 // returns YYYY/MM/DD HH:MM:SS with link to the post
 function formatedDate(screenName, statusID, date) {
     return '<a href="' + statusLink(screenName, statusID) + '">' +
