@@ -95,7 +95,11 @@ exports.addUser = function(data) {
 /** removes a registered user */
 exports.removeUser = function(data, cb) {
     User.remove({id: data.id}, function(err) {
-        cb(err);
+        Activity.remove({user_id: data.id}, function(err) {
+            Status.remove({user_id: data.id}, function(err) {
+                cb(err);
+            });
+        });
     });
 };
 
