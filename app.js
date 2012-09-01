@@ -135,17 +135,23 @@ app.get('/signout', function(req, res) {
 });
 
 app.post('/api/user-activities', function(req, res) {
-    if(!isLoggedIn(req)) {
-        res.send({error: "you aren't logged in"});
+    var id;
+    if(req.body.id) {
+        id = req.body.id;
+    } else if(isLoggedIn(req)){
+        id = userData(req).id;
     } else {
-        db.getUserActivities({
-            userID: userData(req).id,
-            limit:  req.body.limit.toString(),
-            from: req.body.from
-        }, function(data) {
-            res.send(data);
-        });
+        res.send({error: "you aren't logged in or didn't specify ID"});
+        return;
     }
+
+    db.getUserActivities({
+        userID: id,
+        limit:  req.body.limit.toString(),
+        from: req.body.from
+    }, function(data) {
+        res.send(data);
+    });
 });
 
 app.post('/api/user-profile', function(req, res) {
@@ -173,6 +179,20 @@ app.post('/unregister', function(req, res) {
             }
         });
     }
+});
+
+app.get('/user/:screen_name', function(req, res) {
+    db.queryUser({screen_name: req.params.screen_name}, function(data) {
+        if(!data) {
+            res.send('エラーだよ(´・ω・`)そのユーザーいないのかな。。');
+            return;
+        }
+        db.getUserProfile(data.id, function(data){
+            res.render('user', {
+                user: data
+            });
+        });
+    });
 });
 
 app.listen(configure.port);

@@ -105,8 +105,8 @@ exports.removeUser = function(data, cb) {
 
 /** queries user info from user id.
  *  returns null if there's no registered user of the id */
-exports.queryUser = function(id, cb) {
-    User.find({id: id}).select('id screen_name points').exec(function(err, docs) {
+exports.queryUser = function(query, cb) {
+    User.find(query).select('id screen_name points').exec(function(err, docs) {
         var user = docs[0];
         if(cb) cb(user);
     });
@@ -226,7 +226,7 @@ exports.getAllActivities = function(cb) {
 };
 
 exports.getUserProfile = function(id, cb) {
-    exports.queryUser(id, function(data) {
+    exports.queryUser({id: id}, function(data) {
         Activity.find({user_id: id}).or([{type: 'single'}, {type: 'post_reply'}]).count(function(err, pcount) {
             Activity.find({user_id: id, type: 'get_reply'}).count(function(err, gcount){
                 data.post_count = pcount;

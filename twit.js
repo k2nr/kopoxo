@@ -33,7 +33,7 @@ function replyMessage(screen_name, in_reply_to_status_id, points) {
 function startSearchStream() {
     twitter.stream('statuses/filter', {'track': keyword}, function(stream){
         stream.on('data', function(data){
-            db.queryUser(data.user.id, function(d){
+            db.queryUser({id: data.user.id}, function(d){
                 // if the tweet isn't from a registered user then just return null.
                 if(!d) return;
                 if(!data.in_reply_to_status_id_str) {
@@ -56,11 +56,9 @@ function startSearchStream() {
 
         stream.on('end', function(res){
             console.error('search stream stopped: end');
-            console.error(res);
         });
         stream.on('destroy', function(res){
             console.error('search stream stopped: destroy');
-            console.error(res);
             restartSearchStream();
         });
     });

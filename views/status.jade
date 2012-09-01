@@ -45,8 +45,10 @@ html(lang="ja")
     div.container
       div.span4.offset2.top-margin.well.tweet-block
         div.profile-image
-          img(src='#{tweet.profile_image_url}')
-        div.screen-name #{tweet.screen_name}
+          a(href='/user/#{tweet.screen_name}')
+            img(src='#{tweet.profile_image_url}')
+        div.screen-name
+          a(href='/user/#{tweet.screen_name}') #{tweet.screen_name}
         div.tweet-text #{tweet.text}
         div.created-at #{tweet.created_at.toString()}
         i.koporare #{replies.length}
