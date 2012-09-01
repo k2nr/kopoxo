@@ -3,28 +3,22 @@ var users = {};
 
 $(document).ready(function(){
     $('table#my-activities').hide();
-    $.ajax({
-        type: 'POST',
-        url: '/api/user-activities',
-        data: 'limit=100',
-        dataType: 'jsonp',
-        success: function(res) {
-            var len = res.length, cnt=0, i;
-            for(i=0; i < len; i++) {
-                (function(d) {
-                    var $elem = $('<tr />');
-                    $('table#my-activities').append($elem);
-                    makeTableElement(d, function(data) {
-                        $elem.append(data);
-                        cnt++;
-                        if(cnt === len) {
-                            $('table#my-activities').show();
-                        }
-                    });
-                }(res[i]));
-            }
-        }
-    });
+    $.post('/api/user-activities', {limit: 100}, function(res) {
+      var len = res.length, cnt=0, i;
+      for(i=0; i < len; i++) {
+          (function(d) {
+              var $elem = $('<tr />');
+              $('table#my-activities').append($elem);
+              makeTableElement(d, function(data) {
+                  $elem.append(data);
+                  cnt++;
+                  if(cnt === len) {
+                      $('table#my-activities').show();
+                  }
+              });
+          }(res[i]));
+      }
+  });
 });
 
 function statusLink(screenName, statusID) {
