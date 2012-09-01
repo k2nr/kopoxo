@@ -53,7 +53,7 @@ function makeTableElement(data, cb) {
             '</div></div></td>';
         break;
     case 'get_reply':
-        res = '<td><div><div>' + formatedScreenName(data.user_screen_name) + 'からのコポられ: ' +
+        res = '<td><div><div>' + formatedScreenName(data.target_screen_name) + 'からのコポられ: ' +
             '<strong>' + data.points + 'pt獲得！</strong>' +
             '</div><div>' + formatedDate(data.user_screen_name, data.status_id, new Date(data.date)) +
             '</div></div></td>';
