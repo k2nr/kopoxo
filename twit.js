@@ -47,7 +47,7 @@ function startSearchStream() {
                         db.addUserStatus(data, null);
                         db.addUserReplyActivity(data, pts, null);
                         replyMessage(data.user.screen_name,
-                                     data.in_reply_to_status_id_str,
+                                     data.id_str,
                                      pts);
                     });
                 }
@@ -61,8 +61,14 @@ function startSearchStream() {
         stream.on('destroy', function(res){
             console.error('search stream stopped: destroy');
             console.error(res);
-            startSearchStream();
+            restartSearchStream();
         });
     });
+}
+
+function restartSearchStream() {
+    setTimeout(function() {
+        startSearchStream();
+    }, 60 * 1000);
 }
 startSearchStream();
