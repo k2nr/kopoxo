@@ -13,11 +13,11 @@ var keyword = "ｺﾎﾟｫ";
 
 function replyMessage(screen_name, in_reply_to_status_id, points) {
     var m;
-    if(points >= 70) {
-        m = 'ﾅｲｽｺﾎﾟｫです！';
-    } else if (points >= 90){
+    if(points >= 90) {
         m = 'ｸﾞﾚｰﾄｺﾎﾟｫです！';
-    } else if (points <= 20) {
+    } else if (points >= 70){
+        m = 'ﾅｲｽｺﾎﾟｫです！';
+    } else if (points <= 10) {
         m = "その遅ｺﾎﾟｫ、('-^)b クソワロタです ";
     } else {
         return;
@@ -41,14 +41,18 @@ function startSearchStream() {
                     db.addUserSingleActivity(data, 10, null);
                 } else {
                     db.queryTweet(data.in_reply_to_status_id_str, function(repStat){
-                        if(!repStat) return;
-                        var lag = (new Date(data.created_at) - new Date(repStat.created_at));
-                        var pts = Math.max(100 - lag/1000, 0);
-                        db.addUserStatus(data, null);
-                        db.addUserReplyActivity(data, pts, null);
-                        replyMessage(data.user.screen_name,
-                                     data.id_str,
-                                     pts);
+                        if(!repStat) {
+                            db.addUserStatus(data, null);
+                            db.addUserSingleActivity(data, 10, null);
+                        } else {
+                            var lag = (new Date(data.created_at) - new Date(repStat.created_at));
+                            var pts = Math.max(100 - lag/1000, 0);
+                            db.addUserStatus(data, null);
+                            db.addUserReplyActivity(data, pts, null);
+                            replyMessage(data.user.screen_name,
+                                         data.id_str,
+                                         pts);
+                        }
                     });
                 }
             });
