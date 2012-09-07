@@ -44,6 +44,10 @@ function startSearchStream() {
     twitter.stream('statuses/filter', {'track': keyword}, function(stream){
         stream.on('data', function(data){
             console.log(data.user.screen_name + ': ' + data.text);
+            if(!data.in_reply_to_status_id_str && data.text.search(/^ｺﾎﾟｫ/) !== 0) {
+                    console.log('ｺﾎﾟｫ is not at the top of the tweet');
+                    return;
+            }
             db.queryUser({id: data.user.id}, function(d){
                 // if the tweet isn't from a registered user then just return null.
                 if(!d) return;
