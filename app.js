@@ -1,9 +1,7 @@
 var configure = require('./configure');
 var express  = require('express');
 var db = require('./db');
-if(configure.urlRoot.search(/localhost/i) < 0) {
-    var twit = require('./twit');
-}
+var twit = require('./twit');
 
 var app = express();
 var oauth = new (require('oauth').OAuth)(

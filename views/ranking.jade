@@ -3,24 +3,41 @@ title = 'ranking'
 html(lang="ja")
   include includes/header
     style
-      .screen_name {
-        margin-left: 16px;
+      .profile-image {
+        width: 26px;
       }
-      .profile_image {
+      .profile-image-block {
         width:  26px;
         height: 26px;
+        margin: 2px;
       }
+      .rank-num {
+        font-size: 20px;
+        width: 40px;
+      }
+      .point-num {
+        font-size: 24px;
+        font-style: bold;
+        text-align: right !important;
+        padding-right: 20px !important;
+      }
+      .screen-name-block {
+        font-size: 18px;
+        max-width: 60px;
+        padding-left: 2px !important;
+      }
+
     script
       $(document).ready(function() {
         var users = [];
-        $('span.profile_image').each(function(){
+        $('td.profile-image-block').each(function(){
           users.push($(this).attr('id'));
         });
         getUserDataList(users, function(res) {
             var len = res.length, i, user;
             for(i=0; i < len; i++) {
               user = res[i];
-              $('#' + user.id_str).append($('<img class="profile_image" src="' + user.profile_image_url + '" />'));
+              $('#' + user.id_str).append($('<img class="profile-image" src="' + user.profile_image_url + '" />'));
             }
         });
       });
@@ -28,13 +45,13 @@ html(lang="ja")
   body
     include includes/navbar
     div.container
-      div.span6.offset2.top-margin
+      div.span5.offset2.top-margin
         h1 ｺﾎﾟｫポイントランキング
         table#ranking.table.table-striped
-          each d in data
+          each d, i in data
             tr
-              td
-                span.profile_image(id='#{d.id}')
-                a.screen_name(href='/user/#{d.screen_name}') #{d.screen_name}
-              td
-                strong #{d.points}
+              td.rank-num #{i+1}位
+              td.profile-image-block(id='#{d.id}')
+              td.screen-name-block
+                a.screen-name(href='/user/#{d.screen_name}') #{d.screen_name}
+              td.point-num #{d.points}

@@ -144,7 +144,7 @@ exports.addUserStatus = function(data, cb) {
     stat.user_id = data.user.id;
     stat.screen_name = data.user.screen_name;
     stat.profile_image_url = data.user.profile_image_url;
-    stat.in_reply_to_status_id = data.in_reply_to_status_id;
+    stat.in_reply_to_status_id = data.in_reply_to_status_id_str;
     stat.in_reply_to_screen_name = data.in_reply_to_screen_name;
     stat.text = data.text;
     stat.created_at = data.created_at;
@@ -154,7 +154,7 @@ exports.addUserStatus = function(data, cb) {
 exports.addUserSingleActivity = function(data, pts, cb) {
     if(!cb) cb = function(err){};
     if(!pts) pts = 10;
-    
+
     updateUser(data.user.id, function(user) {
         user.points += pts;
         return user;
@@ -202,6 +202,23 @@ exports.addUserReplyActivity = function(data, pts, cb) {
         status_id: data.id_str,
         target_user_id: data.user.id,
         target_screen_name: data.user.screen_name
+    });
+};
+
+exports.addNoReplyActivity = function(data, pts, cb) {
+    if(!cb) cb = function(err){};
+
+    updateUser(data.user.id, function(user) {
+        user.points += pts;
+        return user;
+    });
+    addActivity({
+        points: pts,
+        type: 'no_reply',
+        user_id: data.user.id,
+        user_screen_name: data.user.screen_name,
+        user_profile_img: data.user.profile_image_url,
+        status_id: data.id_str
     });
 };
 

@@ -58,6 +58,12 @@ function makeTableElement(data, cb) {
             '</div><div>' + formatedDate(data.user_screen_name, data.status_id, new Date(data.date)) +
             '</div></div></td>';
         break;
+    case 'no_reply':
+        res = '<td><div><div>' + '誰からもコポられませんでした: ' +
+            '<strong>' + data.points + 'pt獲得！</strong>' +
+            '</div><div>' + formatedDate(data.user_screen_name, data.status_id, new Date(data.date)) +
+            '</div></div></td>';
+        break;
     }
     cb(res);
 }

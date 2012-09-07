@@ -30,15 +30,36 @@ function replyMessage(screen_name, in_reply_to_status_id, points) {
     });
 }
 
+function replyNoRepliesMessage(screen_name, in_reply_to_status_id, points) {
+    var m = '誰からもコポられませんでしたねw 残念ですねww 残念ですねwww かわいそうだから' + points + 'ポイント差し上げますねwww';
+    twitter.updateStatus('@' + screen_name + ' ' + m + ' '
+                         + configure.urlRoot + '/status/' + in_reply_to_status_id, {
+        in_reply_to_status_id: in_reply_to_status_id
+    }, function(err){
+        console.log(err);
+    });
+}
+
 function startSearchStream() {
     twitter.stream('statuses/filter', {'track': keyword}, function(stream){
         stream.on('data', function(data){
+            console.log(data.user.screen_name + ': ' + data.text);
             db.queryUser({id: data.user.id}, function(d){
                 // if the tweet isn't from a registered user then just return null.
                 if(!d) return;
                 if(!data.in_reply_to_status_id_str) {
                     db.addUserStatus(data, null);
                     db.addUserSingleActivity(data, 10, null);
+                    setTimeout(function() {
+                        db.queryReplies(data.id_str, function(replies) {
+                            if(replies.length === 0) {
+                                replyNoRepliesMessage(data.user.screen_name,
+                                             data.id_str,
+                                             50);
+                                db.addNoReplyActivity(data, 50, null);
+                            }
+                        });
+                    }, 100 * 1000);
                 } else {
                     db.queryTweet(data.in_reply_to_status_id_str, function(repStat){
                         if(!repStat) {
