@@ -42,13 +42,13 @@ var Status = mongo.model('statuses', new mongo.Schema({
 
 function updateUser(id, func) {
     User.find({id: id}, function(err, users) {
-        if(!users || users.length == 0) {
+        if(!users || users.length === 0) {
             return;
         }
         if(err) {
             return;
         }
-        
+
         func(users[0]).save();
     });
 }
@@ -240,5 +240,16 @@ exports.getUserProfile = function(id, cb) {
                 });
             });
         });
+    });
+};
+
+exports.getRanking = function(cb) {
+    User
+     .find({})
+     .select('id screen_name points profile_image_url')
+     .sort('-points')
+     .limit(10)
+     .exec(function(err, docs) {
+        cb(docs);
     });
 };

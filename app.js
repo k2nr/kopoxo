@@ -1,7 +1,9 @@
 var configure = require('./configure');
 var express  = require('express');
 var db = require('./db');
-var twit = require('./twit');
+if(configure.urlRoot.search(/localhost/i) < 0) {
+    var twit = require('./twit');
+}
 
 var app = express();
 var oauth = new (require('oauth').OAuth)(
@@ -191,6 +193,14 @@ app.get('/user/:screen_name', function(req, res) {
             res.render('user', {
                 user: data
             });
+        });
+    });
+});
+
+app.get('/ranking', function(req, res) {
+    db.getRanking(function(data) {
+        res.render('ranking', {
+            data: data
         });
     });
 });

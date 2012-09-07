@@ -1,0 +1,40 @@
+!!!5
+title = 'ranking'
+html(lang="ja")
+  include includes/header
+    style
+      .screen_name {
+        margin-left: 16px;
+      }
+      .profile_image {
+        width:  26px;
+        height: 26px;
+      }
+    script
+      $(document).ready(function() {
+        var users = [];
+        $('span.profile_image').each(function(){
+          users.push($(this).attr('id'));
+        });
+        getUserDataList(users, function(res) {
+            var len = res.length, i, user;
+            for(i=0; i < len; i++) {
+              user = res[i];
+              $('#' + user.id_str).append($('<img class="profile_image" src="' + user.profile_image_url + '" />'));
+            }
+        });
+      });
+
+  body
+    include includes/navbar
+    div.container
+      div.span6.offset2.top-margin
+        h1 ｺﾎﾟｫポイントランキング
+        table#ranking.table.table-striped
+          each d in data
+            tr
+              td
+                span.profile_image(id='#{d.id}')
+                a.screen_name(href='/user/#{d.screen_name}') #{d.screen_name}
+              td
+                strong #{d.points}

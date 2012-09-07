@@ -7,3 +7,13 @@ function getUserData(id,cb) {
         }
     });
 }
+
+function getUserDataList(ids, cb) {
+    $.ajax({
+        url: 'http://api.twitter.com/1/users/lookup.json?user_id=' + ids.join(','),
+        dataType: 'jsonp',
+        success: function(res) {
+            cb(res);
+        }
+    });
+}
